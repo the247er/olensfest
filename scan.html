@@ -81,48 +81,52 @@
 </div>
 <script type="module">
     if(!(!!window.location.search) || window.location.search*1<Math.floor(new Date().valueOf()/1000)){
-        return window.location.href="?"+Math.floor(new Date().valueOf()/1000);
-    }
-    import QrScanner from "../olensfest/qr-scanner.min.js";
+        window.location.href="?"+Math.floor(new Date().valueOf()/1000);
+    }else {
+    import
+        QrScanner
+        from
+        "../olensfest/qr-scanner.min.js";
 
-    QrScanner.WORKER_PATH = '../olensfest/qr-scanner-worker.min.js';
+        QrScanner.WORKER_PATH = '../olensfest/qr-scanner-worker.min.js';
 
-    const video = document.getElementById('qr-video'),
-        scan = document.getElementById('scan'),
-        camQrResult = document.getElementById('cam-qr-result'),
-        camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp'),
-        newscan = document.getElementById('newscan');
+        const video = document.getElementById('qr-video'),
+            scan = document.getElementById('scan'),
+            camQrResult = document.getElementById('cam-qr-result'),
+            camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp'),
+            newscan = document.getElementById('newscan');
 
 
-    let mayscan = false;
+        let mayscan = false;
 
-    function setResult(label, result) {
-        if (mayscan) {
-            mayscan = false;
-            scan.classList.add('noscan');
-            label.textContent = result;
-            camQrResultTimestamp.textContent = new Date().toString();
-            label.style.color = 'teal';
-            clearTimeout(label.highlightTimeout);
-            label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+        function setResult(label, result) {
+            if (mayscan) {
+                mayscan = false;
+                scan.classList.add('noscan');
+                label.textContent = result;
+                camQrResultTimestamp.textContent = new Date().toString();
+                label.style.color = 'teal';
+                clearTimeout(label.highlightTimeout);
+                label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+            }
         }
+
+        // ####### Web Cam Scanning #######
+
+        QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
+
+        const scanner = new QrScanner(video, result => setResult(camQrResult, result));
+        scanner.start();
+        scanner.setInversionMode('both');
+        newscan.addEventListener('click', function () {
+
+            camQrResult.textContent = '';
+            setTimeout(function () {
+                mayscan = true;
+                scan.classList.remove('noscan');
+            }, 500)
+        })
     }
-
-    // ####### Web Cam Scanning #######
-
-    QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
-
-    const scanner = new QrScanner(video, result => setResult(camQrResult, result));
-    scanner.start();
-    scanner.setInversionMode('both');
-    newscan.addEventListener('click', function () {
-
-        camQrResult.textContent = '';
-        setTimeout(function () {
-            mayscan = true;
-            scan.classList.remove('noscan');
-        }, 500)
-    })
 
 
 </script>
