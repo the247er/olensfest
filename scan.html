@@ -82,16 +82,20 @@
         display: block;
 
     }
-    iframe{
-        position:absolute;
-        top:0px;
-        left:0px;
-        border:none;
-        width:100vw;
-        height:calc( 100vh - 80px);
-        display:block;
-        z-index: 2;
 
+    .img {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        border: none;
+        width: 100vw;
+        height: calc(100vh - 80px);
+        display: block;
+        z-index: 2;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-color: black;
     }
 
 
@@ -122,7 +126,7 @@
         iframe;
 
     function ticketCallBack(result) {
-        alert(     JSON.stringify(result));
+        alert(JSON.stringify(result));
     }
 
     function setResult(label, result) {
@@ -134,11 +138,12 @@
             label.style.color = 'teal';
             clearTimeout(label.highlightTimeout);
             label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
-           iframe = document.createElement('iframe');
+            iframe = document.createElement('div');
+            iframe.setAttribute('class', 'img')
 
-            iframe.src = 'https://translate.google.com/translate?sl=en&tl=nl&u=http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + '?callback=ticketCallBack';
+            iframe.style.backgroundImage = 'url(http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + ')';
 
-            scan.appendChild( iframe);
+            scan.appendChild(iframe);
         }
     }
 
@@ -153,7 +158,7 @@
         camQrResult.textContent = '';
         setTimeout(function () {
             mayscan = true;
-            if(!!iframe && !!iframe.parentNode){
+            if (!!iframe && !!iframe.parentNode) {
                 iframe.parentNode.removeChild(iframe);
             }
             scan.classList.remove('noscan');
@@ -164,4 +169,3 @@
 </script>
 </body>
 </html>
-
