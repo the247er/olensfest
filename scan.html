@@ -66,11 +66,8 @@
 
 </style>
 <video muted playsinline id="qr-video"></video>
-<div class="scan" id="scan">
-
+<div class="scan noscan" id="scan">
     <div class="result" id="cam-qr-result"></div>
-
-
     <div id="cam-qr-result-timestamp"></div>
     <div class="newcan" id="newscan">SCAN</div>
 </div>
@@ -86,7 +83,7 @@
         newscan = document.getElementById('newscan');
 
 
-    let mayscan = true;
+    let mayscan = false;
 
     function setResult(label, result) {
         if (mayscan) {
