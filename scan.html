@@ -123,7 +123,7 @@
             clearTimeout(label.highlightTimeout);
             label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
             const script = document.createElement('script');
-            script.src = 'http://olenstfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + '?callback=ticketCallBack';
+            script.src = 'http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + '?callback=ticketCallBack';
 
             document.querySelector('head').appendChild(script);
         }
