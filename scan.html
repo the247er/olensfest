@@ -15,18 +15,7 @@
         if (!(!!window.location.search) || window.location.search * 1 < Math.floor(new Date().valueOf() / 1000)) {
             window.location.href = "?" + Math.floor(new Date().valueOf() / 1000);
         }
-        var elem=document.documentElement;
-        function openFullscreen() {
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { /* Firefox */
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { /* IE/Edge */
-                elem.msRequestFullscreen();
-            }
-        }
+
     </script>
 </head>
 <body>
@@ -135,6 +124,7 @@
 
 
     let mayscan = false,
+        started,
         iframe;
 
     function ticketCallBack(result) {
@@ -151,7 +141,7 @@
             clearTimeout(label.highlightTimeout);
             label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
             iframe = document.createElement('div');
-            if(!! window.navigator.vibrate) {
+            if (!!window.navigator.vibrate) {
                 window.navigator.vibrate(200);
             }
             iframe.setAttribute('class', 'img')
@@ -164,14 +154,31 @@
 
     // ####### Web Cam Scanning #######
 
+    const elem = document.documentElement;
+
+    function openFullscreen() {
+        started = true;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { /* Firefox */
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE/Edge */
+            elem.msRequestFullscreen();
+        }
+    }
 
     const scanner = new QrScanner(video, result => setResult(camQrResult, result));
     scanner.start();
     scanner.setInversionMode('both');
     newscan.addEventListener('click', function () {
-
+        if (!(!!started)) {
+            openFullscreen();
+        }
         camQrResult.textContent = '';
         setTimeout(function () {
+
             mayscan = true;
             if (!!iframe && !!iframe.parentNode) {
                 iframe.parentNode.removeChild(iframe);
