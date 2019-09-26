@@ -12,25 +12,25 @@
 
     <meta name="theme-color" content="#ffffff">
     <script>
-        if(!(!!window.location.search) || window.location.search*1<Math.floor(new Date().valueOf()/1000)){
-            window.location.href="?"+Math.floor(new Date().valueOf()/1000);
+        if (!(!!window.location.search) || window.location.search * 1 < Math.floor(new Date().valueOf() / 1000)) {
+            window.location.href = "?" + Math.floor(new Date().valueOf() / 1000);
         }
     </script>
 </head>
 <body>
 <style>
-   
+
     body {
         color: #ffffff;
         font-family: Verdana;
         padding: 0px;
         margin: 0px;
         position: absolute;
-        top:0px;
-        left:0px;
-        width:100vw;
-        height:100vh;
-        overflow:hidden ;
+        top: 0px;
+        left: 0px;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
 
     }
 
@@ -93,50 +93,56 @@
 </div>
 
 <script type="module">
-       import
+    import
         QrScanner
         from
-        "../olensfest/qr-scanner.min.js";
+            "../olensfest/qr-scanner.min.js";
 
-        QrScanner.WORKER_PATH = '../olensfest/qr-scanner-worker.min.js';
+    QrScanner.WORKER_PATH = '../olensfest/qr-scanner-worker.min.js';
 
-        const video = document.getElementById('qr-video'),
-            scan = document.getElementById('scan'),
-            camQrResult = document.getElementById('cam-qr-result'),
-            camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp'),
-            newscan = document.getElementById('newscan');
+    const video = document.getElementById('qr-video'),
+        scan = document.getElementById('scan'),
+        camQrResult = document.getElementById('cam-qr-result'),
+        camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp'),
+        newscan = document.getElementById('newscan');
 
 
-        let mayscan = false;
+    let mayscan = false;
 
-        function setResult(label, result) {
-            if (mayscan) {
-                mayscan = false;
-                scan.classList.add('noscan');
-                label.textContent = result;
-                camQrResultTimestamp.textContent = new Date().toString();
-                label.style.color = 'teal';
-                clearTimeout(label.highlightTimeout);
-                label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
-            }
+    function ticketCallBack(result) {
+        alert(     JSON.stringify(result));
+    }
+
+    function setResult(label, result) {
+        if (mayscan) {
+            mayscan = false;
+            scan.classList.add('noscan');
+            label.textContent = result;
+            camQrResultTimestamp.textContent = new Date().toString();
+            label.style.color = 'teal';
+            clearTimeout(label.highlightTimeout);
+            label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+            const script = document.createElement('script');
+            script.src = '//olenstfest.epizy.com/access/' + result.toLowercase().split('/').pop() + '?callback=ticketCallBack';
+
+            document.querySelector('head').appendChild(script);
         }
+    }
 
-        // ####### Web Cam Scanning #######
+    // ####### Web Cam Scanning #######
 
 
+    const scanner = new QrScanner(video, result => setResult(camQrResult, result));
+    scanner.start();
+    scanner.setInversionMode('both');
+    newscan.addEventListener('click', function () {
 
-        const scanner = new QrScanner(video, result => setResult(camQrResult, result));
-        scanner.start();
-        scanner.setInversionMode('both');
-        newscan.addEventListener('click', function () {
-
-            camQrResult.textContent = '';
-            setTimeout(function () {
-                mayscan = true;
-                scan.classList.remove('noscan');
-            }, 500)
-        })
-
+        camQrResult.textContent = '';
+        setTimeout(function () {
+            mayscan = true;
+            scan.classList.remove('noscan');
+        }, 500)
+    })
 
 
 </script>
