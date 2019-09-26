@@ -136,7 +136,7 @@
             label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
            iframe = document.createElement('iframe');
 
-            iframe.src = 'http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + '?callback=ticketCallBack';
+            iframe.src = 'https://translate.google.com/translate?sl=en&tl=nl&u=http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + '?callback=ticketCallBack';
 
             scan.appendChild( iframe);
         }
@@ -164,3 +164,4 @@
 </script>
 </body>
 </html>
+
