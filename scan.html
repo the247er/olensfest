@@ -146,7 +146,7 @@
             }
             iframe.setAttribute('class', 'img')
 
-            iframe.style.backgroundImage = 'url(http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + ')';
+            iframe.style.backgroundImage = 'url(http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + '?ts='+new Date().valueOf()+')';
 
             scan.appendChild(iframe);
         }
