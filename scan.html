@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo($_ENV['title'] ?$_ENV['title']: 'Olensfest 2019') ?></title>
+    <title>Olensfest 2019</title>
 
     <link rel="stylesheet" href="/css/app.css">
 
@@ -61,8 +61,8 @@
     <span id="cam-qr-result-timestamp"></span>
 </div>
 <script type="module">
-    import QrScanner from "/js/qr-scanner.min.js";
-    QrScanner.WORKER_PATH = '/js/qr-scanner-worker.min.js';
+    import QrScanner from "qr-scanner.min.js";
+    QrScanner.WORKER_PATH = 'qr-scanner-worker.min.js';
 
     const video = document.getElementById('qr-video');
     const camHasCamera = document.getElementById('cam-has-camera');
