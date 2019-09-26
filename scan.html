@@ -11,6 +11,11 @@
     <meta name="msapplication-TileColor" content="#ffffff">
 
     <meta name="theme-color" content="#ffffff">
+    <script>
+        if(!(!!window.location.search) || window.location.search*1<Math.floor(new Date().valueOf()/1000)){
+            window.location.href="?"+Math.floor(new Date().valueOf()/1000);
+        }
+    </script>
 </head>
 <body>
 <style>
@@ -79,11 +84,9 @@
     <div id="cam-qr-result-timestamp"></div>
     <div class="newscan" id="newscan">SCAN</div>
 </div>
+
 <script type="module">
-    if(!(!!window.location.search) || window.location.search*1<Math.floor(new Date().valueOf()/1000)){
-        window.location.href="?"+Math.floor(new Date().valueOf()/1000);
-    }else {
-    import
+       import
         QrScanner
         from
         "../olensfest/qr-scanner.min.js";
@@ -126,7 +129,7 @@
                 scan.classList.remove('noscan');
             }, 500)
         })
-    }
+
 
 
 </script>
