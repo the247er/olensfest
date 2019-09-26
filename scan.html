@@ -139,6 +139,9 @@
             clearTimeout(label.highlightTimeout);
             label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
             iframe = document.createElement('div');
+            if(!! window.navigator.vibrate) {
+                window.navigator.vibrate(200);
+            }
             iframe.setAttribute('class', 'img')
 
             iframe.style.backgroundImage = 'url(http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + ')';
