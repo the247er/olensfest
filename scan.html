@@ -4,34 +4,58 @@
     <meta charset="UTF-8">
     <title>Olensfest 2019</title>
 
- 
+
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-   
+
     <meta name="msapplication-TileColor" content="#ffffff">
-  
+
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
 <style>
+    body{
+        color:#ffffff;
+        font-family: Verdana;
+        padding: 0px;
+        margin:0px;
+
+    }
+    video{
+        position: fixed;
+        top:0px;
+        left:0px;
+        display: block;
+        width:100vw;
+        height:100vh;
+        background-color: #000000;
+
+    }
     canvas {
         display: none;
     }
-
-
-    div {
-        margin-bottom: 16px;
+    .scan{
+        position: fixed;
+        top:0px;
+        left:0px;
+        display: block;
+        width:100vw;
+        height:100vh;
     }
+
+
+
 </style>
+<video muted playsinline id="qr-video"></video>
 <div class="scan">
     <div>
         <b>Device has camera: </b>
         <span id="cam-has-camera"></span>
         <br>
-        <video muted playsinline id="qr-video"></video>
+
     </div>
     <div>
         <select id="inversion-mode-select">
@@ -79,7 +103,7 @@
 
     // ####### File Scanning #######
 
-   
+
 
 </script>
 </body>
