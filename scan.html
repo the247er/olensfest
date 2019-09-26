@@ -15,6 +15,18 @@
         if (!(!!window.location.search) || window.location.search * 1 < Math.floor(new Date().valueOf() / 1000)) {
             window.location.href = "?" + Math.floor(new Date().valueOf() / 1000);
         }
+        var elem=document.documentElement;
+        function openFullscreen() {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
+        }
     </script>
 </head>
 <body>
