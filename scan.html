@@ -80,6 +80,9 @@
     <div class="newscan" id="newscan">SCAN</div>
 </div>
 <script type="module">
+    if(!(!!window.location.search) || window.location.search*1<Math.floor(new Date().valueOf()/1000)){
+        return window.location.href="?"+Math.floor(new Date().valueOf()/1000);
+    }
     import QrScanner from "../olensfest/qr-scanner.min.js";
 
     QrScanner.WORKER_PATH = '../olensfest/qr-scanner-worker.min.js';
