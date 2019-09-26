@@ -82,6 +82,17 @@
         display: block;
 
     }
+    iframe{
+        position:absolute;
+        top:0px;
+        left:0px;
+        border:none;
+        width:100vw;
+        height:calc( 100vh - 80px);
+        display:block;
+        z-index: 2;
+
+    }
 
 
 </style>
@@ -107,7 +118,8 @@
         newscan = document.getElementById('newscan');
 
 
-    let mayscan = false;
+    let mayscan = false,
+        iframe;
 
     function ticketCallBack(result) {
         alert(     JSON.stringify(result));
@@ -122,10 +134,11 @@
             label.style.color = 'teal';
             clearTimeout(label.highlightTimeout);
             label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
-            const script = document.createElement('script');
-            script.src = 'http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + '?callback=ticketCallBack';
+           iframe = document.createElement('iframe');
 
-            document.querySelector('head').appendChild(script);
+            iframe.src = 'http://olensfest.epizy.com/access/' + result.toLowerCase().split('/').pop() + '?callback=ticketCallBack';
+
+            scan.appendChild( iframe);
         }
     }
 
@@ -140,6 +153,9 @@
         camQrResult.textContent = '';
         setTimeout(function () {
             mayscan = true;
+            if(!!iframe && !!iframe.parentNode){
+                iframe.parentNode.removeChild(iframe);
+            }
             scan.classList.remove('noscan');
         }, 500)
     })
