@@ -5,10 +5,7 @@
     <title>Olensfest 2019</title>
 
 
-
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 
 
     <meta name="msapplication-TileColor" content="#ffffff">
@@ -17,77 +14,91 @@
 </head>
 <body>
 <style>
-    body{
-        color:#ffffff;
+    body {
+        color: #ffffff;
         font-family: Verdana;
         padding: 0px;
-        margin:0px;
+        margin: 0px;
 
     }
-    video{
+
+    video {
         position: fixed;
-        top:0px;
-        left:0px;
+        top: 0px;
+        left: 0px;
         display: block;
-        width:100vw;
-        height:100vh;
+        width: 100vw;
+        height: 100vh;
         background-color: #000000;
 
     }
+
     canvas {
         display: none;
     }
-    .scan{
+
+    .scan {
         position: fixed;
-        top:0px;
-        left:0px;
+        top: 0px;
+        left: 0px;
         display: block;
-        width:100vw;
-        height:100vh;
+        width: 100vw;
+        height: 100vh;
     }
 
+    .newscan {
+        position: absolute;
+        height: 40px;
+        text-align: center;
+        padding: 20px;
+        width: 100vw;
+        display: none;
+        left: 0px;
+        bottom: 0px;
+        cursor: pointer;
+
+    }
+
+    .scan.noscan .newscan {
+        display: block;
+    }
 
 
 </style>
 <video muted playsinline id="qr-video"></video>
-<div class="scan">
-    <div>
-        <b>Device has camera: </b>
-        <span id="cam-has-camera"></span>
-        <br>
+<div class="scan" id="scan">
 
-    </div>
-    <div>
-        <select id="inversion-mode-select">
-            <option value="original">Scan original (dark QR code on bright background)</option>
-            <option value="invert">Scan with inverted colors (bright QR code on dark background)</option>
-            <option value="both">Scan both</option>
-        </select>
-        <br>
-    </div>
-    <b>Detected QR code: </b>
-    <span id="cam-qr-result">None</span>
-    <br>
-    <b>Last detected at: </b>
-    <span id="cam-qr-result-timestamp"></span>
+    <div class="result" id="cam-qr-result"
+</div>
+<br>
+<b>Last detected at: </b>
+<span id="cam-qr-result-timestamp"></span>
+<div class="newcan" id="newscan">SCAN</div>
 </div>
 <script type="module">
     import QrScanner from "../olensfest/qr-scanner.min.js";
+
     QrScanner.WORKER_PATH = '../olensfest/qr-scanner-worker.min.js';
 
-    const video = document.getElementById('qr-video');
-    const camHasCamera = document.getElementById('cam-has-camera');
-    const camQrResult = document.getElementById('cam-qr-result');
-    const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
+    const video = document.getElementById('qr-video'),
+        scan = document.getElementById('scan'),
+        camQrResult = document.getElementById('cam-qr-result'),
+        camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp'),
+        newscan = document.getElementById('newscan');
 
-    const fileQrResult = document.getElementById('file-qr-result');
+
+    let mayscan = true;
 
     function setResult(label, result) {
-        label.textContent = result;
-        camQrResultTimestamp.textContent = new Date().toString();
-        label.style.color = 'teal';
-        clearTimeout(label.highlightTimeout);
-        label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+        if (mayscan) {
+            mayscan = false;
+            scan.classList.add('noscan');
+            label.textContent = result;
+            camQrResultTimestamp.textContent = new Date().toString();
+            label.style.color = 'teal';
+            clearTimeout(label.highlightTimeout);
+            label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+        }
     }
 
     // ####### Web Cam Scanning #######
@@ -96,13 +107,15 @@
 
     const scanner = new QrScanner(video, result => setResult(camQrResult, result));
     scanner.start();
+    scanner.setInversionMode('both');
+    newscan.addEventListener('click', function () {
 
-    document.getElementById('inversion-mode-select').addEventListener('change', event => {
-        scanner.setInversionMode(event.target.value);
-    });
-
-    // ####### File Scanning #######
-
+        camQrResult.textContent = '';
+        setTimeout(function () {
+            mayscan = true;
+            scan.classList.remove('noscan');
+        }, 500)
+    })
 
 
 </script>
